@@ -60,9 +60,22 @@ const OTHER_FOSSILS = [
   },
 ];
 
-// TODO: Replace this comment with your code
+// Render the Homepage route:
+app.get('/', (req, res) => {
+	res.render('homepage.html.njk');
+});
+
+// Save the user's name in the current session:
+// Redirect to /top-fossils:
+app.get('/get-name', (req, res) => {
+	req.session.userName = req.query.name;
+	res.redirect('/top-fossils');
+});
+
+// Render the Top Fossils page, and send data to it:
 app.get('/top-fossils', (req, res) => {
 	res.render('top-fossils.html.njk', {
+		userName: req.session.userName || "Unnamed Human",
 		fossils: MOST_LIKED_FOSSILS
 	});
 });
