@@ -4,6 +4,15 @@
 {% endblock %}
 {% block content %}
 	<h1>Welcome, {{ userName }}</h1>
+	<form action="/like-fossil" method="POST">
+		<label for="likedFossil">Like a fossil:</label>
+		<select name="likedFossil">
+			{% for key, fossil in fossils %}
+			<option value="{{ key }}">{{ fossil.name }}</option>
+			{% endfor %}
+		</select>
+		<input type="submit" />
+	</form>
 	{% for key, fossil in fossils %}
 	<div class="fossil-div">
 		<h3>{{ userName }}, this is a {{ fossil.name }}</h3>

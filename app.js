@@ -94,6 +94,25 @@ app.get('/top-fossils', (req, res) => {
 	}
 });
 
+// Process liked fossil POST request:
+app.post('/like-fossil', (req, res) => {
+	// Get the key of the liked fossil:
+	let likedFossil = req.body.likedFossil;
+	// Increment if fossil exists:
+	if (likedFossil) {
+		// Increment number of likes by one:
+		MOST_LIKED_FOSSILS[likedFossil].num_likes += 1;
+		// Render "Thank You" page:
+		res.render('thank-you.html.njk', {
+			userName: req.session.userName
+		});
+	}
+	// Else redirect to /top-fossils:
+	else {
+		res.redirect('/top-fossils');
+	}
+});
+
 app.get('/random-fossil.json', (req, res) => {
   const randomFossil = lodash.sample(OTHER_FOSSILS);
   res.json(randomFossil);
