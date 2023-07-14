@@ -62,7 +62,14 @@ const OTHER_FOSSILS = [
 
 // Render the Homepage route:
 app.get('/', (req, res) => {
-	res.render('homepage.html.njk');
+	// Redirect to /top-fossils if username:
+	if (req.session.userName) {
+		res.redirect('/top-fossils');
+	}
+	// Else, render the Homepage:
+	else {
+		res.render('homepage.html.njk');
+	}
 });
 
 // Save the user's name in the current session:
@@ -72,12 +79,19 @@ app.get('/get-name', (req, res) => {
 	res.redirect('/top-fossils');
 });
 
-// Render the Top Fossils page, and send data to it:
+// Render the Top Fossils page, sending data to it:
 app.get('/top-fossils', (req, res) => {
-	res.render('top-fossils.html.njk', {
-		userName: req.session.userName || "Unnamed Human",
-		fossils: MOST_LIKED_FOSSILS
-	});
+	// Render only if username:
+	if (req.session.userName) {
+		res.render('top-fossils.html.njk', {
+			userName: req.session.userName,
+			fossils: MOST_LIKED_FOSSILS
+		});
+	}
+	// Else redirect to Homepage:
+	else {
+		res.redirect('/');
+	}
 });
 
 app.get('/random-fossil.json', (req, res) => {
